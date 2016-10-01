@@ -59,14 +59,33 @@ function textNodesUnder(element) {
   return textNodes;
 }
 
+function isInElement(node, elem) {
+  var nodeInElem = false;
+  for (var i = 0, len = elem.childNodes.length; i < len; i++) {
+    if (elem.childNodes[i] == node) {
+      nodeInElem = true;
+      return nodeInElem;
+    }
+  }
+
+  for (var i = 0, len = elem.childNodes.length; i < len; i++) {
+    nodeInElem = isInElement(node, elem.childNodes[i])
+    if (nodeInElem == true) {
+      return nodeInElem;
+    }
+  }
+
+  return nodeInElem;
+}
+
 function run() {
   var textNodes = textNodesUnder(document.body);
   textNodes.forEach(function (node) {
     var lower = node.textContent.toLowerCase();
-    if (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss")) {
-      console.log(watson(lower));
-      console.log(updateAWS("420", "JonnyIsCoo1"));
-      getUserScore("JonnyIsCoo1");
+    var elem = document.activeElement
+    if (!isInElement(node, elem) && (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss"))) {
+      // console.log(updateAWS("420", "JonnyIsCoo1"));
+      // getUserScore("JonnyIsCoo1");
       var myCat = document.createElement("IMG");
       var height = Math.round(Math.random() * 300) + 100;
       var width = Math.round(Math.random() * 200) + 100;
@@ -78,6 +97,9 @@ function run() {
   });
   setTimeout(function () {
     run();
-  }, 10);
+  }, 1000);
 }
-run();
+window.onload = function() {
+  run();
+};
+
