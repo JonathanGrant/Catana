@@ -27,7 +27,7 @@
         "https://*/*"
       ],
       "js": [
-        "scripts/aws.js",
+        // "scripts/aws.js",
         "scripts/jquery.min.js",
         "scripts/contentscript.js"
       ],
