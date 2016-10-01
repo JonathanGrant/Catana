@@ -29,7 +29,18 @@ function updateAWS(newScore, userId) {
 }
 
 function watson(phrase) {
-  var url = "https://gateway.watsonplatform.net/tone-analyzer/api/v3";
+  var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3?version=2016-05-19&text=" + phrase;
+  $.ajax({
+    url : myUrl,
+    type: "GET",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader ("Authorization", "Basic " + btoa("2a460659-2311-4613-8f63-467520c31e24:gLzfrrMv5a4q"));
+    },
+    success: function(data, status, jq) {
+      console.log(data, status, jq);
+      return data;
+    }
+  });
 }
 
 function textNodesUnder(element) {
@@ -54,6 +65,7 @@ function run() {
   textNodes.forEach(function(node) {
     var lower = node.textContent.toLowerCase();
     if (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss")) {
+      console.log(watson(lower));
       console.log(updateAWS("420", "JonnyIsCoo1"));
       getUserScore("JonnyIsCoo1");
       var myCat = document.createElement("IMG");
