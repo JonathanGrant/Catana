@@ -4,7 +4,7 @@ function doTheThing() {
     if (!messages[i].innerHTML.includes("<div") && messages[i].innerHTML.includes("fuck you")) {
       var height = Math.round(Math.random()*400) + 10;
       var width = Math.round(Math.random()*300) + 10;
-      messages[i].innerHTML = "This is great. Thank you for existing.<br><img src=\'http://placekitten.com/" + width + "/" + height + "\' />";
+      messages[i].innerHTML = "Thank you for existing. Here's a cat, just for you!<img src=\'http://placekitten.com/" + width + "/" + height + "\' />";
     }
   }
   setTimeout(function() {
