@@ -7,6 +7,21 @@
 <html>
   <head>
     <title>Catana's Popup</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+      var slider = new slider('#anger', {
+        formatter: function(value) {
+          return 'Current value: ' + value;
+        }
+      });
+    </script>
     <style>
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
@@ -20,17 +35,14 @@
         max-width: 400px;
       }
     </style>
- 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
     <script src="popup.js"></script>
   </head>
   <body>
-    <div id="status"></div>
+    <div id="status">
+      <div class="container">
+        <input id="anger" data-slider-id="ex1slider" type='text' data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" />
+      </div>
+    </div>
     <img id="image-result" hidden>
   </body>
 </html>
