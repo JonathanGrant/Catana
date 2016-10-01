@@ -14,9 +14,8 @@
     "https://ajax.googleapis.com/"
   ],
   "content_scripts": [{
-    "css": ["styles.css"],
-    "js": ["jquery.min.js" , "content.js"],
-    "all_frames": true,
-    "matches": [ "http://*/*", "https://*/*" ]
+    "js": ["content.js"],
+    "matches": ["https://*/*"],
+    "run_at": "document_end"
   }]
 }

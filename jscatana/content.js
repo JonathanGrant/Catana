@@ -1,4 +1,11 @@
-var images = document.getElementsByTagName('img');
-for (var i = 0, l = images.length; i < l; i++) {
-  images[i].src = 'http://placekitten.com/' + images[i].width + '/' + images[i].height;
+function doTheThing() {
+  var messages = document.getElementsByTagName('div');
+  for (var i = 0, l = messages.length; i < l; i++) {
+    if (!messages[i].innerHTML.includes("<div") && messages[i].innerHTML.includes("fuck you")) {
+      alert("Found it!");
+      messages[i].innerHTML = "This is great. Thank you for existing. <img src=\'http://placekitten.com/420/420\' />";
+    }
+  }
+  setTimeout(doTheThing(), 2000);
 }
+doTheThing();
