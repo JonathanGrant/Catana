@@ -1,5 +1,7 @@
 "use strict";
 
+const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome"];
+
 window.runningCanata = false;
 
 function watson(phrase, node) {
@@ -24,8 +26,12 @@ function watson(phrase, node) {
 }
 
 function replaceSwearWord(phrase) {
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/g;
-  return phrase.replace(fuckRegex, "LOVE");
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/;
+  while (fuckRegex.test(phrase)) {
+    var randWord = positives[Math.round(Math.random()*positives.length)]
+    phrase = phrase.replace(fuckRegex, randWord);
+  }
+  return phrase;
 }
 
 function containsSwearWord(phrase) {
@@ -86,7 +92,8 @@ function run() {
       var lower = node.textContent.toLowerCase();
       var elem = document.activeElement
       if (!isInElement(node, elem) && elem.id != "fuckitty" && containsSwearWord(lower)) {
-        return watson(lower, node);
+        // return watson(lower, node);
+        return watsonCallback(90, node);
       }
     });
 
