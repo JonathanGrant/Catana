@@ -1,38 +1,24 @@
 "use strict";
 
-const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome"];
-
 window.runningCanata = false;
 
-window.s_ajaxListener = new Object();
-window.s_ajaxListener.tempOpen = XMLHttpRequest.prototype.open;
-window.s_ajaxListener.tempSend = XMLHttpRequest.prototype.send;
-window.s_ajaxListener.callback = function () {
-  // this.method :the ajax method used
-  // this.url    :the url of the requested script (including query string, if any) (urlencoded) 
-  // this.data   :the data sent, if any ex: foo=bar&a=b (urlencoded)
-  console.log("A thing happened.")
-}
+// select the target node
+var target = document.body;
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+       console.log(mutation.type);
+       run();
+    });    
+});
 
-XMLHttpRequest.prototype.open = function(a,b) {
-  if (!a) var a='';
-  if (!b) var b='';
-  window.s_ajaxListener.tempOpen.apply(this, arguments);
-  window.s_ajaxListener.method = a;  
-  window.s_ajaxListener.url = b;
-  if (a.toLowerCase() == 'get') {
-    window.s_ajaxListener.data = b.split('?');
-    window.s_ajaxListener.data = window.s_ajaxListener.data[1];
-  }
-}
+// configuration of the observer:
+var config = { childList: true };
 
-XMLHttpRequest.prototype.send = function(a,b) {
-  if (!a) var a='';
-  if (!b) var b='';
-  window.s_ajaxListener.tempSend.apply(this, arguments);
-  if(window.s_ajaxListener.method.toLowerCase() == 'post')window.s_ajaxListener.data = a;
-  window.s_ajaxListener.callback();
-}
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
+
+const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome"];
 
 function watson(phrase, node) {
   var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=" + phrase;
@@ -131,11 +117,25 @@ function run() {
     console.log("Already running scanner...");
   }
 
-  setTimeout(function () {
-    run();
-  }, 2000);
+  // setTimeout(function () {
+  //   run();
+  // }, 2000);
 }
+
 window.onload = function() {
-  run();
+
+  // run();
+  // console.log("Page loaded!");
+
+  // $(document).on("change",function()
+  // {
+  //   if (window.runningCanata == false) {
+  //     window.runningCanata = true
+  //     console.log("running run...");
+  //     run();
+  //     window.runningCanata = false
+  //   };
+      
+  // });
 };
 
