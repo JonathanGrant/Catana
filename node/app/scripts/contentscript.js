@@ -1,5 +1,6 @@
 "use strict";
 
+window.runningCanata = false;
 
 function watson(phrase, node) {
   var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=" + phrase;
@@ -66,18 +67,28 @@ function isInElement(node, elem) {
 }
 
 function run() {
-  console.log("ya running");
-  var textNodes = textNodesUnder(document.body);
-  textNodes.forEach(function (node) {
-    var lower = node.textContent.toLowerCase();
-    var elem = document.activeElement
-    if (!isInElement(node, elem) && (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss"))) {
-      return watson(lower, node);
-    }
-  });
+  if (window.runningCanata == false) {
+    window.runningCanata = true;
+
+    console.log("ya running");
+    var textNodes = textNodesUnder(document.body);
+    textNodes.forEach(function (node) {
+      var lower = node.textContent.toLowerCase();
+      var elem = document.activeElement
+      if (!isInElement(node, elem) && (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss"))) {
+        return watson(lower, node);
+      }
+    });
+
+    window.runningCanata = false;
+  } else {
+    console.log("Already running scanner...");
+  }
+  console.log("ran the thing");
+
   setTimeout(function () {
     run();
-  }, 100);
+  }, 2000);
 }
 window.onload = function() {
   run();
