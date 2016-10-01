@@ -15,7 +15,8 @@
   ],
   "content_scripts": [{
     "css": ["styles.css"],
-    "js": ["hello.js"],
-    "matches": ["https://blog.lateral.io/*"]
+    "js": ["jquery.min.js" , "content.js"],
+    "all_frames": true,
+    "matches": [ "http://*/*", "https://*/*" ]
   }]
 }
