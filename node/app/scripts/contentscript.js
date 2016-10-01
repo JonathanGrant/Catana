@@ -23,12 +23,12 @@ function watson(phrase, node) {
 }
 
 function replaceSwearWord(phrase) {
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+/g;
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/g;
   return phrase.replace(fuckRegex, "LOVE");
 }
 
 function containsSwearWord(phrase) {
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+/g;
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/g;
   return fuckRegex.test(phrase);
 }
 
@@ -39,6 +39,7 @@ function watsonCallback(score, node) {
     var width = Math.round(Math.random() * 200) + 100;
     myCat.src = "http://placekitten.com/" + width + "/" + height;
     node.parentElement.appendChild(myCat);
+    node.id = "fuckitty";
     node.nodeValue = replaceSwearWord(node.nodeValue);
   }
   return node;
@@ -79,7 +80,7 @@ function run() {
   textNodes.forEach(function (node) {
     var lower = node.textContent.toLowerCase();
     var elem = document.activeElement
-    if (!isInElement(node, elem) && containsSwearWord(lower)) {
+    if (!isInElement(node, elem) && elem.id != "fuckitty" && containsSwearWord(lower)) {
       return watson(lower, node);
     }
   });
