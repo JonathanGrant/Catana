@@ -32,8 +32,8 @@ function updateAWS(newScore, userId) {
   });
 }
 
-function watson(phrase) {
-  var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3?version=2016-05-19&text=" + phrase;
+function watson(phrase, node) {
+  var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=" + phrase;
   $.ajax({
     url: myUrl,
     type: "GET",
@@ -41,12 +41,32 @@ function watson(phrase) {
       xhr.setRequestHeader("Authorization", "Basic " + btoa("2a460659-2311-4613-8f63-467520c31e24:gLzfrrMv5a4q"));
     },
     success: function success(data, status, jq) {
-      console.log(data, status, jq);
-      return data;
+      if (data != undefined) {
+        var tones = data["document_tone"].tone_categories[0].tones;
+        for (var i = 0; i < tones.length; i++) {
+          if (tones[i].tone_name == "Anger") {
+            watsonCallback(tones[i].score, node);
+          }
+        }
+      }
     }
   });
 }
 
+function watsonCallback(score, node) {
+  if (score * 100 > 50) {
+    // console.log(score);
+    console.log(updateAWS("420", "JonnyIsCoo1"));
+    getUserScore("JonnyIsCoo1");
+    var myCat = document.createElement("IMG");
+    var height = Math.round(Math.random() * 300) + 100;
+    var width = Math.round(Math.random() * 200) + 100;
+    myCat.src = "http://placekitten.com/" + width + "/" + height;
+    node.parentElement.appendChild(myCat);
+    node.nodeValue = node.nodeValue.replace(/fuck/g, "love").replace(/Fuck/g, "Love").replace(/shit/g, "amazing").replace(/Shit/g, "Amazing").replace(/bitch/g, "beautiful person").replace(/Bitch/g, "Beautiful person").replace(/piss off/g, "thank you").replace(/Piss off/g, "Thank you").replace(/piss/g, "great").replace(/Piss/g, "Great");
+  }
+  return node;
+}
 function textNodesUnder(element) {
   var node = void 0;
   var textNodes = [];
@@ -60,24 +80,16 @@ function textNodesUnder(element) {
 }
 
 function run() {
+  console.log("ya running");
   var textNodes = textNodesUnder(document.body);
   textNodes.forEach(function (node) {
     var lower = node.textContent.toLowerCase();
     if (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss")) {
-      console.log(watson(lower));
-      console.log(updateAWS("420", "JonnyIsCoo1"));
-      getUserScore("JonnyIsCoo1");
-      var myCat = document.createElement("IMG");
-      var height = Math.round(Math.random() * 300) + 100;
-      var width = Math.round(Math.random() * 200) + 100;
-      myCat.src = "http://placekitten.com/" + width + "/" + height;
-      node.parentElement.appendChild(myCat);
-      node.nodeValue = node.nodeValue.replace(/fuck/g, "love").replace(/Fuck/g, "Love").replace(/shit/g, "amazing").replace(/Shit/g, "Amazing").replace(/bitch/g, "beautiful person").replace(/Bitch/g, "Beautiful person").replace(/piss off/g, "thank you").replace(/Piss off/g, "Thank you").replace(/piss/g, "great").replace(/Piss/g, "Great");
+      return watson(lower, node);
     }
-    return node;
   });
   setTimeout(function () {
     run();
-  }, 10);
+  }, 100);
 }
 run();
