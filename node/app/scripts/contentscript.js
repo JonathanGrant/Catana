@@ -2,6 +2,36 @@
 
 window.runningCanata = false;
 
+window.s_ajaxListener = new Object();
+window.s_ajaxListener.tempOpen = XMLHttpRequest.prototype.open;
+window.s_ajaxListener.tempSend = XMLHttpRequest.prototype.send;
+window.s_ajaxListener.callback = function () {
+  // this.method :the ajax method used
+  // this.url    :the url of the requested script (including query string, if any) (urlencoded) 
+  // this.data   :the data sent, if any ex: foo=bar&a=b (urlencoded)
+  console.log("A thing happened.")
+}
+
+XMLHttpRequest.prototype.open = function(a,b) {
+  if (!a) var a='';
+  if (!b) var b='';
+  window.s_ajaxListener.tempOpen.apply(this, arguments);
+  window.s_ajaxListener.method = a;  
+  window.s_ajaxListener.url = b;
+  if (a.toLowerCase() == 'get') {
+    window.s_ajaxListener.data = b.split('?');
+    window.s_ajaxListener.data = window.s_ajaxListener.data[1];
+  }
+}
+
+XMLHttpRequest.prototype.send = function(a,b) {
+  if (!a) var a='';
+  if (!b) var b='';
+  window.s_ajaxListener.tempSend.apply(this, arguments);
+  if(window.s_ajaxListener.method.toLowerCase() == 'post')window.s_ajaxListener.data = a;
+  window.s_ajaxListener.callback();
+}
+
 function watson(phrase, node) {
   var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=" + phrase;
   $.ajax({
@@ -80,7 +110,6 @@ function run() {
   if (window.runningCanata == false) {
     window.runningCanata = true;
 
-    console.log("ya running");
     var textNodes = textNodesUnder(document.body);
     textNodes.forEach(function (node) {
       var lower = node.textContent.toLowerCase();
@@ -94,7 +123,6 @@ function run() {
   } else {
     console.log("Already running scanner...");
   }
-  console.log("ran the thing");
 
   setTimeout(function () {
     run();
