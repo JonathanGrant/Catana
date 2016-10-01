@@ -22,15 +22,24 @@ function watson(phrase, node) {
   });
 }
 
+function replaceSwearWord(phrase) {
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+/g;
+  return phrase.replace(fuckRegex, "LOVE");
+}
+
+function containsSwearWord(phrase) {
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+/g;
+  return fuckRegex.test(phrase);
+}
+
 function watsonCallback(score, node) {
   if (score * 100 > 50) {
-    // console.log(score);
     var myCat = document.createElement("IMG");
     var height = Math.round(Math.random() * 300) + 100;
     var width = Math.round(Math.random() * 200) + 100;
     myCat.src = "http://placekitten.com/" + width + "/" + height;
     node.parentElement.appendChild(myCat);
-    node.nodeValue = node.nodeValue.replace(/fuck/g, "love").replace(/Fuck/g, "Love").replace(/shit/g, "amazing").replace(/Shit/g, "Amazing").replace(/bitch/g, "beautiful person").replace(/Bitch/g, "Beautiful person").replace(/piss off/g, "thank you").replace(/Piss off/g, "Thank you").replace(/piss/g, "great").replace(/Piss/g, "Great");
+    node.nodeValue = replaceSwearWord(node.nodeValue);
   }
   return node;
 }
@@ -66,18 +75,17 @@ function isInElement(node, elem) {
 }
 
 function run() {
-  console.log("ya running");
   var textNodes = textNodesUnder(document.body);
   textNodes.forEach(function (node) {
     var lower = node.textContent.toLowerCase();
     var elem = document.activeElement
-    if (!isInElement(node, elem) && (lower.includes("fuck") || lower.includes("shit") || lower.includes("bitch") || lower.includes("piss"))) {
+    if (!isInElement(node, elem) && containsSwearWord(lower)) {
       return watson(lower, node);
     }
   });
   setTimeout(function () {
     run();
-  }, 100);
+  }, 1000);
 }
 window.onload = function() {
   run();
