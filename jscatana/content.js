@@ -6,6 +6,8 @@ function doTheThing() {
       messages[i].innerHTML = "This is great. Thank you for existing. <img src=\'http://placekitten.com/420/420\' />";
     }
   }
-  setTimeout(doTheThing(), 2000);
+  setTimeout(function() {
+    doTheThing();
+  }, 2000);
 }
 doTheThing();
