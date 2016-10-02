@@ -117,14 +117,13 @@ function run_sentiment_filter(focus = null) {
     window.runningCanata = false;
   } else {
   }
-
-  // setTimeout(function () {
-  //   run_sentiment_filter();
-  // }, 2000);
+  setTimeout(function () {
+    run_sentiment_filter();
+  }, 10000);
 }
 
 window.onload = function() {
-  run_sentiment_filter()
+  run_sentiment_filter();
 
   // run_sentiment_filter();
 
