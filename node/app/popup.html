@@ -1,27 +1,21 @@
 <!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
 <html>
   <head>
     <title>Catana's Popup</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="./scripts/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./scripts/bootstrap-3.3.7-dist/css/bootstrap-slider.css">
     <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-      var slider = new slider('#anger', {
-        formatter: function(value) {
-          return 'Current value: ' + value;
-        }
-      });
-    </script>
+    <script src="./scripts/jquery.min.js"></script>
+    <style>
+    #angerS .slider-selection{
+      background: #bababa;
+    }
+    </style>
+    <!--<script>window.$ = window.jQuery = require('./scripts/jquery-1.12.4.min.js');</script>
+    <! Latest compiled JavaScript -->
+    <script src="./scripts/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="./scripts/bootstrap-3.3.7-dist/js/bootstrap-slider.js"></script>
     <style>
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
@@ -35,12 +29,16 @@
         max-width: 400px;
       }
     </style>
-    <script src="popup.js"></script>
+    <script src="./scripts/popup.js"></script>
   </head>
   <body>
+
     <div id="status">
       <div class="container">
-        <input id="anger" data-slider-id="ex1slider" type='text' data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" />
+        <span id="anger" color="#FF0000">Anger: 50</span>
+        <input id="angerS" data-slider-id="ex1slider" type='text' data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" />
+        <span id="disgust" color="#003300">Disgust: 50</span>
+        <input id="disgustS" data-slider-id="ex1slider" type='text' data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" />
       </div>
     </div>
     <img id="image-result" hidden>
