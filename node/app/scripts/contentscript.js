@@ -9,8 +9,8 @@ var target = document.body;
 // create an observer instance
 var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
-       console.log(mutation.type);
-       run();
+       console.log(mutation);
+       run_sentiment_filter();
     });    
 });
 
@@ -101,7 +101,7 @@ function isInElement(node, elem) {
   return nodeInElem;
 }
 
-function run() {
+function run_sentiment_filter(focus = null) {
   if (window.runningCanata == false) {
     window.runningCanata = true;
 
@@ -121,13 +121,14 @@ function run() {
   }
 
   // setTimeout(function () {
-  //   run();
+  //   run_sentiment_filter();
   // }, 2000);
 }
 
 window.onload = function() {
+  run_sentiment_filter()
 
-  // run();
+  // run_sentiment_filter();
   // console.log("Page loaded!");
 
   // $(document).on("change",function()
@@ -135,7 +136,7 @@ window.onload = function() {
   //   if (window.runningCanata == false) {
   //     window.runningCanata = true
   //     console.log("running run...");
-  //     run();
+  //     run_sentiment_filter();
   //     window.runningCanata = false
   //   };
       
