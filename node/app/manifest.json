@@ -7,13 +7,17 @@
     "16": "images/icon-16.png",
     "128": "images/icon-128.png"
   },
+  "browser_action":{
+    "default_popup": "popup.html"
+  },
   "default_locale": "en",
   "background": {
     "scripts": [
       "scripts/jquery.min.js",
       "scripts/chromereload.js",
       "scripts/background.js"
-    ]
+    ],
+    "persistent": false
   },
   "permissions": [
     "tabs",
@@ -27,9 +31,9 @@
         "https://*/*"
       ],
       "js": [
-        // "scripts/aws.js",
         "scripts/jquery.min.js",
-        "scripts/contentscript.js"
+        "scripts/contentscript.js",
+        "scripts/popup.js"
       ],
       "run_at": "document_end",
       "all_frames": false
