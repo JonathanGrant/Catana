@@ -10,6 +10,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#disgustS").slider();
     $("#disgustS").on("slide", function(slideEvt) {
-    $("#disgust").text("Anger: " + slideEvt.value);
+    $("#disgust").text("Disgust: " + slideEvt.value);
   });
 });
