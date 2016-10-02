@@ -1,5 +1,7 @@
 "use strict";
 
+const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome", "Some people are like clouds. When they go away, it's a brighter day.", "You're like a sharpie - super fine.", "Positive vibes", "TWO CHAINS"];
+
 window.runningCanata = false;
 
 // select the target node
@@ -7,8 +9,8 @@ var target = document.body;
 // create an observer instance
 var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
-       console.log(mutation.type);
-       run();
+       console.log(mutation);
+       run_sentiment_filter();
     });    
 });
 
@@ -17,8 +19,6 @@ var config = { childList: true };
 
 // pass in the target node, as well as the observer options
 observer.observe(target, config);
-
-const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome"];
 
 function watson(phrase, node) {
   var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=" + phrase;
@@ -42,7 +42,7 @@ function watson(phrase, node) {
 }
 
 function replaceSwearWord(phrase) {
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/;
+  var fuckRegex = /[fF]+[uU]+[kK]+|[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/;
   while (fuckRegex.test(phrase)) {
     var randWord = positives[Math.round(Math.random()*positives.length)]
     phrase = phrase.replace(fuckRegex, randWord);
@@ -61,7 +61,10 @@ function watsonCallback(score, node) {
     var height = Math.round(Math.random() * 300) + 100;
     var width = Math.round(Math.random() * 200) + 100;
     myCat.src = "http://placekitten.com/" + width + "/" + height;
+    var linebreak = document.createElement("br");
+    node.parentElement.appendChild(linebreak);
     node.parentElement.appendChild(myCat);
+    node.parentElement.style.maxHeight = "666666666px";
     node.id = "fuckitty";
     node.nodeValue = replaceSwearWord(node.nodeValue);
   }
@@ -98,7 +101,7 @@ function isInElement(node, elem) {
   return nodeInElem;
 }
 
-function run() {
+function run_sentiment_filter(focus = null) {
   if (window.runningCanata == false) {
     window.runningCanata = true;
 
@@ -118,13 +121,14 @@ function run() {
   }
 
   // setTimeout(function () {
-  //   run();
+  //   run_sentiment_filter();
   // }, 2000);
 }
 
 window.onload = function() {
+  run_sentiment_filter()
 
-  // run();
+  // run_sentiment_filter();
   // console.log("Page loaded!");
 
   // $(document).on("change",function()
@@ -132,7 +136,7 @@ window.onload = function() {
   //   if (window.runningCanata == false) {
   //     window.runningCanata = true
   //     console.log("running run...");
-  //     run();
+  //     run_sentiment_filter();
   //     window.runningCanata = false
   //   };
       
