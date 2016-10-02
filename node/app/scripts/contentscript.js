@@ -1,6 +1,6 @@
 "use strict";
 
-const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome", "Some people are like clouds. When they go away, it's a brighter day.", "You're like a sharpie - super fine.", "Positive vibes", "TWO CHAINS"];
+const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome", "Some people are like clouds. When they go away, it's a brighter day.", "You're like a sharpie - super fine.", "Positive vibes", "TWO CHAINS", "soylent", "meow", "Meow", "MEOW", "lawnmower", "iPhone 7 without a aux jack", "Taco Bell", "virtual reality", "tricycle", "pants", "shirt", "socks", "Yoda", "the Force", "Ultra Spiritual", "Goddess", "Aztec", "Lazers", "dank", "🔥", "Ayyyy LMAO", "dollar menu"];
 
 window.runningCanata = false;
 
@@ -9,7 +9,6 @@ var target = document.body;
 // create an observer instance
 var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
-       console.log(mutation);
        run_sentiment_filter();
     });    
 });
@@ -117,25 +116,21 @@ function run_sentiment_filter(focus = null) {
 
     window.runningCanata = false;
   } else {
-    console.log("Already running scanner...");
   }
-
-  // setTimeout(function () {
-  //   run_sentiment_filter();
-  // }, 2000);
+  setTimeout(function () {
+    run_sentiment_filter();
+  }, 10000);
 }
 
 window.onload = function() {
-  run_sentiment_filter()
+  run_sentiment_filter();
 
   // run_sentiment_filter();
-  // console.log("Page loaded!");
 
   // $(document).on("change",function()
   // {
   //   if (window.runningCanata == false) {
   //     window.runningCanata = true
-  //     console.log("running run...");
   //     run_sentiment_filter();
   //     window.runningCanata = false
   //   };
