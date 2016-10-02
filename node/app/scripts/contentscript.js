@@ -1,6 +1,5 @@
 "use strict";
 
-// var nlp = window.nlp_compromise;
 const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome", "Some people are like clouds. When they go away, it's a brighter day.", "You're like a sharpie - super fine.", "Positive vibes", "TWO CHAINS"];
 
 window.runningCanata = false;
@@ -43,8 +42,7 @@ function watson(phrase, node) {
 }
 
 function replaceSwearWord(phrase) {
-  // console.log(nlp.text(phrase).tags());
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/;
+  var fuckRegex = /[fF]+[uU]+[kK]+|[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/;
   while (fuckRegex.test(phrase)) {
     var randWord = positives[Math.round(Math.random()*positives.length)]
     phrase = phrase.replace(fuckRegex, randWord);
@@ -66,6 +64,7 @@ function watsonCallback(score, node) {
     var linebreak = document.createElement("br");
     node.parentElement.appendChild(linebreak);
     node.parentElement.appendChild(myCat);
+    node.parentElement.style.maxHeight = "666666666px";
     node.id = "fuckitty";
     node.nodeValue = replaceSwearWord(node.nodeValue);
   }
