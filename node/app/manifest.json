@@ -27,8 +27,10 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://www.messenger.com/*",
+        "https://messenger.com/*",
+        "https://youtube.com/*",
+        "https://www.youtube.com/*"
       ],
       "js": [
         "scripts/jquery.min.js",
