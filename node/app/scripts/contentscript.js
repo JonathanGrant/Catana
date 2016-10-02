@@ -1,5 +1,24 @@
 "use strict";
 
+window.runningCanata = false;
+
+// select the target node
+var target = document.body;
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+       console.log(mutation.type);
+       run();
+    });    
+});
+
+// configuration of the observer:
+var config = { childList: true };
+
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
+
+const positives = ["LOVE", "Love", "love", "great", "GREAT", "Great", "amazing person", "Amazing Person", "AMAZING PERSON", "beautiful being", "Beautiful Being", "BEAUTIFUL BEING", "Golden Soul", "GOLDEN SOUL", "golden soul", "AGELESS", "Ageless", "ageless", "awesome", "AWESOME", "Awesome"];
 
 function watson(phrase, node) {
   var myUrl = "https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2016-05-19&text=" + phrase;
@@ -23,12 +42,16 @@ function watson(phrase, node) {
 }
 
 function replaceSwearWord(phrase) {
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+/g;
-  return phrase.replace(fuckRegex, "LOVE");
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/;
+  while (fuckRegex.test(phrase)) {
+    var randWord = positives[Math.round(Math.random()*positives.length)]
+    phrase = phrase.replace(fuckRegex, randWord);
+  }
+  return phrase;
 }
 
 function containsSwearWord(phrase) {
-  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+/g;
+  var fuckRegex = /[fF]+[uU]+[cC]+[kK]+|[sS]+[hH]+[!1iI]+[tT]+|[bB]+[!1iI]+[tT]+[cC]+[hH]+|[@aA]+[5sS]+|[5sS]+[lL]+[uU]+[tT]+|[pP]+[iI]+[sS]+|[dD]+[!1iI]+[cC]+[kK]+|[fF]+[aA@]+[gG]+/g;
   return fuckRegex.test(phrase);
 }
 
@@ -39,6 +62,7 @@ function watsonCallback(score, node) {
     var width = Math.round(Math.random() * 200) + 100;
     myCat.src = "http://placekitten.com/" + width + "/" + height;
     node.parentElement.appendChild(myCat);
+    node.id = "fuckitty";
     node.nodeValue = replaceSwearWord(node.nodeValue);
   }
   return node;
@@ -75,19 +99,43 @@ function isInElement(node, elem) {
 }
 
 function run() {
-  var textNodes = textNodesUnder(document.body);
-  textNodes.forEach(function (node) {
-    var lower = node.textContent.toLowerCase();
-    var elem = document.activeElement
-    if (!isInElement(node, elem) && containsSwearWord(lower)) {
-      return watson(lower, node);
-    }
-  });
-  setTimeout(function () {
-    run();
-  }, 1000);
+  if (window.runningCanata == false) {
+    window.runningCanata = true;
+
+    var textNodes = textNodesUnder(document.body);
+    textNodes.forEach(function (node) {
+      var lower = node.textContent.toLowerCase();
+      var elem = document.activeElement
+      if (!isInElement(node, elem) && elem.id != "fuckitty" && containsSwearWord(lower)) {
+        // return watson(lower, node);
+        return watsonCallback(90, node);
+      }
+    });
+
+    window.runningCanata = false;
+  } else {
+    console.log("Already running scanner...");
+  }
+
+  // setTimeout(function () {
+  //   run();
+  // }, 2000);
 }
+
 window.onload = function() {
-  run();
+
+  // run();
+  // console.log("Page loaded!");
+
+  // $(document).on("change",function()
+  // {
+  //   if (window.runningCanata == false) {
+  //     window.runningCanata = true
+  //     console.log("running run...");
+  //     run();
+  //     window.runningCanata = false
+  //   };
+      
+  // });
 };
 
